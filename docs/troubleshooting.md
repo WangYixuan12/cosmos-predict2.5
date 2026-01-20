@@ -32,7 +32,7 @@ Check driver compatibility:
 nvidia-smi | grep "CUDA Version:"
 ```
 
-### Out of Memory (OOM) errors**
+### Out of Memory (OOM) errors
 
 **Fix:** Use 2B models instead of 14B, multi-GPU, or reduce batch size/resolution
 
