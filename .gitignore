@@ -207,4 +207,5 @@ cython_debug/
 !assets/**/*.mp4
 
 .vscode/
+*outputs/
 
