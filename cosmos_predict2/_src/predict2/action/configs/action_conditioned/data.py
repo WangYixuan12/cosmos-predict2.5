@@ -199,6 +199,238 @@ def register_training_and_val_data():
         node=bridge_13frame_480_640_val_dataloader,
     )
 
+    # Register custom task datasets
+    # Scripted Sim ALOHA (4D actions, 128x128 images)
+    cs.store(
+        group="data_train",
+        package="dataloader_train",
+        name="scripted_sim_aloha_train",
+        node=L(DataLoader)(
+            dataset=L(Dataset_3D)(
+                train_annotation_path="datasets/scripted_sim_aloha_100/annotation/train",
+                val_annotation_path="datasets/scripted_sim_aloha_100/annotation/val",
+                test_annotation_path="datasets/scripted_sim_aloha_100/annotation/val",
+                video_path="datasets/scripted_sim_aloha_100/",
+                fps_downsample_ratio=1,
+                num_action_per_chunk=12,
+                cam_ids=[0],
+                accumulate_action=False,
+                video_size=[128, 128],
+                val_start_frame_interval=1,
+                mode="train",
+            ),
+            sampler=L(get_sampler)(
+                dataset=L(Dataset_3D)(
+                    train_annotation_path="datasets/scripted_sim_aloha_100/annotation/train",
+                    val_annotation_path="datasets/scripted_sim_aloha_100/annotation/val",
+                    test_annotation_path="datasets/scripted_sim_aloha_100/annotation/val",
+                    video_path="datasets/scripted_sim_aloha_100/",
+                    fps_downsample_ratio=1,
+                    num_action_per_chunk=12,
+                    cam_ids=[0],
+                    accumulate_action=False,
+                    video_size=[128, 128],
+                    val_start_frame_interval=1,
+                    mode="train",
+                ),
+            ),
+            batch_size=1,
+            drop_last=True,
+        ),
+    )
+
+    cs.store(
+        group="data_val",
+        package="dataloader_val",
+        name="scripted_sim_aloha_val",
+        node=L(DataLoader)(
+            dataset=L(Dataset_3D)(
+                train_annotation_path="datasets/scripted_sim_aloha_100/annotation/train",
+                val_annotation_path="datasets/scripted_sim_aloha_100/annotation/val",
+                test_annotation_path="datasets/scripted_sim_aloha_100/annotation/val",
+                video_path="datasets/scripted_sim_aloha_100/",
+                fps_downsample_ratio=1,
+                num_action_per_chunk=12,
+                cam_ids=[0],
+                accumulate_action=False,
+                video_size=[128, 128],
+                val_start_frame_interval=1,
+                mode="val",
+            ),
+            sampler=L(get_sampler)(
+                dataset=L(Dataset_3D)(
+                    train_annotation_path="datasets/scripted_sim_aloha_100/annotation/train",
+                    val_annotation_path="datasets/scripted_sim_aloha_100/annotation/val",
+                    test_annotation_path="datasets/scripted_sim_aloha_100/annotation/val",
+                    video_path="datasets/scripted_sim_aloha_100/",
+                    fps_downsample_ratio=1,
+                    num_action_per_chunk=12,
+                    cam_ids=[0],
+                    accumulate_action=False,
+                    video_size=[128, 128],
+                    val_start_frame_interval=1,
+                    mode="val",
+                ),
+            ),
+            batch_size=1,
+            drop_last=True,
+        ),
+    )
+
+    # Bimanual Rope (8D actions)
+    cs.store(
+        group="data_train",
+        package="dataloader_train",
+        name="bimanual_rope_train",
+        node=L(DataLoader)(
+            dataset=L(Dataset_3D)(
+                train_annotation_path="datasets/bimanual_rope_1201/annotation/train",
+                val_annotation_path="datasets/bimanual_rope_1201/annotation/val",
+                test_annotation_path="datasets/bimanual_rope_1201/annotation/val",
+                video_path="datasets/bimanual_rope_1201/",
+                fps_downsample_ratio=1,
+                num_action_per_chunk=12,
+                cam_ids=[0],
+                accumulate_action=False,
+                video_size=[128, 128],
+                val_start_frame_interval=1,
+                mode="train",
+            ),
+            sampler=L(get_sampler)(
+                dataset=L(Dataset_3D)(
+                    train_annotation_path="datasets/bimanual_rope_1201/annotation/train",
+                    val_annotation_path="datasets/bimanual_rope_1201/annotation/val",
+                    test_annotation_path="datasets/bimanual_rope_1201/annotation/val",
+                    video_path="datasets/bimanual_rope_1201/",
+                    fps_downsample_ratio=1,
+                    num_action_per_chunk=12,
+                    cam_ids=[0],
+                    accumulate_action=False,
+                    video_size=[128, 128],
+                    val_start_frame_interval=1,
+                    mode="train",
+                ),
+            ),
+            batch_size=1,
+            drop_last=True,
+        ),
+    )
+
+    cs.store(
+        group="data_val",
+        package="dataloader_val",
+        name="bimanual_rope_val",
+        node=L(DataLoader)(
+            dataset=L(Dataset_3D)(
+                train_annotation_path="datasets/bimanual_rope_1201/annotation/train",
+                val_annotation_path="datasets/bimanual_rope_1201/annotation/val",
+                test_annotation_path="datasets/bimanual_rope_1201/annotation/val",
+                video_path="datasets/bimanual_rope_1201/",
+                fps_downsample_ratio=1,
+                num_action_per_chunk=12,
+                cam_ids=[0],
+                accumulate_action=False,
+                video_size=[128, 128],
+                val_start_frame_interval=1,
+                mode="val",
+            ),
+            sampler=L(get_sampler)(
+                dataset=L(Dataset_3D)(
+                    train_annotation_path="datasets/bimanual_rope_1201/annotation/train",
+                    val_annotation_path="datasets/bimanual_rope_1201/annotation/val",
+                    test_annotation_path="datasets/bimanual_rope_1201/annotation/val",
+                    video_path="datasets/bimanual_rope_1201/",
+                    fps_downsample_ratio=1,
+                    num_action_per_chunk=12,
+                    cam_ids=[0],
+                    accumulate_action=False,
+                    video_size=[128, 128],
+                    val_start_frame_interval=1,
+                    mode="val",
+                ),
+            ),
+            batch_size=1,
+            drop_last=True,
+        ),
+    )
+
+    # Bimanual Box (14D actions)
+    cs.store(
+        group="data_train",
+        package="dataloader_train",
+        name="bimanual_box_train",
+        node=L(DataLoader)(
+            dataset=L(Dataset_3D)(
+                train_annotation_path="datasets/bimanual_box_1221/annotation/train",
+                val_annotation_path="datasets/bimanual_box_1221/annotation/val",
+                test_annotation_path="datasets/bimanual_box_1221/annotation/val",
+                video_path="datasets/bimanual_box_1221/",
+                fps_downsample_ratio=1,
+                num_action_per_chunk=12,
+                cam_ids=[0],
+                accumulate_action=False,
+                video_size=[128, 128],
+                val_start_frame_interval=1,
+                mode="train",
+            ),
+            sampler=L(get_sampler)(
+                dataset=L(Dataset_3D)(
+                    train_annotation_path="datasets/bimanual_box_1221/annotation/train",
+                    val_annotation_path="datasets/bimanual_box_1221/annotation/val",
+                    test_annotation_path="datasets/bimanual_box_1221/annotation/val",
+                    video_path="datasets/bimanual_box_1221/",
+                    fps_downsample_ratio=1,
+                    num_action_per_chunk=12,
+                    cam_ids=[0],
+                    accumulate_action=False,
+                    video_size=[128, 128],
+                    val_start_frame_interval=1,
+                    mode="train",
+                ),
+            ),
+            batch_size=1,
+            drop_last=True,
+        ),
+    )
+
+    cs.store(
+        group="data_val",
+        package="dataloader_val",
+        name="bimanual_box_val",
+        node=L(DataLoader)(
+            dataset=L(Dataset_3D)(
+                train_annotation_path="datasets/bimanual_box_1221/annotation/train",
+                val_annotation_path="datasets/bimanual_box_1221/annotation/val",
+                test_annotation_path="datasets/bimanual_box_1221/annotation/val",
+                video_path="datasets/bimanual_box_1221/",
+                fps_downsample_ratio=1,
+                num_action_per_chunk=12,
+                cam_ids=[0],
+                accumulate_action=False,
+                video_size=[128, 128],
+                val_start_frame_interval=1,
+                mode="val",
+            ),
+            sampler=L(get_sampler)(
+                dataset=L(Dataset_3D)(
+                    train_annotation_path="datasets/bimanual_box_1221/annotation/train",
+                    val_annotation_path="datasets/bimanual_box_1221/annotation/val",
+                    test_annotation_path="datasets/bimanual_box_1221/annotation/val",
+                    video_path="datasets/bimanual_box_1221/",
+                    fps_downsample_ratio=1,
+                    num_action_per_chunk=12,
+                    cam_ids=[0],
+                    accumulate_action=False,
+                    video_size=[128, 128],
+                    val_start_frame_interval=1,
+                    mode="val",
+                ),
+            ),
+            batch_size=1,
+            drop_last=True,
+        ),
+    )
+
     # Register gr00t_customized_gr1 data
     if register_gr00t_customized_gr1_data is not None:
         register_gr00t_customized_gr1_data()
