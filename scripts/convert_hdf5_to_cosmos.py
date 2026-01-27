@@ -156,7 +156,10 @@ def convert_hdf5_episode(
     state_list = states.tolist() if states.shape[1] >= action_dim else actions.tolist()
 
     # Extract gripper states (assume last dimension is gripper)
-    continuous_gripper_state = [[s[6], s[13]] for s in state_list]
+    if states.shape[1] == 14:
+        continuous_gripper_state = [[s[6], s[13]] for s in state_list]
+    elif states.shape[1] == 7:
+        continuous_gripper_state = [s[6] for s in state_list]
 
     annotation = {
         'task': task_name,

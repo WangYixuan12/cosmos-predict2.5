@@ -431,6 +431,314 @@ def register_training_and_val_data():
         ),
     )
 
+    # Bimanual Sweep (4D actions)
+    cs.store(
+        group="data_train",
+        package="dataloader_train",
+        name="bimanual_sweep_train",
+        node=L(DataLoader)(
+            dataset=L(Dataset_3D)(
+                train_annotation_path="datasets/bimanual_sweep_0103/annotation/train",
+                val_annotation_path="datasets/bimanual_sweep_0103/annotation/val",
+                test_annotation_path="datasets/bimanual_sweep_0103/annotation/val",
+                video_path="datasets/bimanual_sweep_0103/",
+                fps_downsample_ratio=1,
+                num_action_per_chunk=12,
+                cam_ids=[0],
+                accumulate_action=False,
+                video_size=[128, 128],
+                val_start_frame_interval=1,
+                mode="train",
+            ),
+            sampler=L(get_sampler)(
+                dataset=L(Dataset_3D)(
+                    train_annotation_path="datasets/bimanual_sweep_0103/annotation/train",
+                    val_annotation_path="datasets/bimanual_sweep_0103/annotation/val",
+                    test_annotation_path="datasets/bimanual_sweep_0103/annotation/val",
+                    video_path="datasets/bimanual_sweep_0103/",
+                    fps_downsample_ratio=1,
+                    num_action_per_chunk=12,
+                    cam_ids=[0],
+                    accumulate_action=False,
+                    video_size=[128, 128],
+                    val_start_frame_interval=1,
+                    mode="train",
+                ),
+            ),
+            batch_size=1,
+            drop_last=True,
+        ),
+    )
+
+    cs.store(
+        group="data_val",
+        package="dataloader_val",
+        name="bimanual_sweep_val",
+        node=L(DataLoader)(
+            dataset=L(Dataset_3D)(
+                train_annotation_path="datasets/bimanual_sweep_0103/annotation/train",
+                val_annotation_path="datasets/bimanual_sweep_0103/annotation/val",
+                test_annotation_path="datasets/bimanual_sweep_0103/annotation/val",
+                video_path="datasets/bimanual_sweep_0103/",
+                fps_downsample_ratio=1,
+                num_action_per_chunk=12,
+                cam_ids=[0],
+                accumulate_action=False,
+                video_size=[128, 128],
+                val_start_frame_interval=1,
+                mode="val",
+            ),
+            sampler=L(get_sampler)(
+                dataset=L(Dataset_3D)(
+                    train_annotation_path="datasets/bimanual_sweep_0103/annotation/train",
+                    val_annotation_path="datasets/bimanual_sweep_0103/annotation/val",
+                    test_annotation_path="datasets/bimanual_sweep_0103/annotation/val",
+                    video_path="datasets/bimanual_sweep_0103/",
+                    fps_downsample_ratio=1,
+                    num_action_per_chunk=12,
+                    cam_ids=[0],
+                    accumulate_action=False,
+                    video_size=[128, 128],
+                    val_start_frame_interval=1,
+                    mode="val",
+                ),
+            ),
+            batch_size=1,
+            drop_last=True,
+        ),
+    )
+
+    # PushT (4D actions)
+    cs.store(
+        group="data_train",
+        package="dataloader_train",
+        name="pusht_train",
+        node=L(DataLoader)(
+            dataset=L(Dataset_3D)(
+                train_annotation_path="datasets/pusht_1000_1101/annotation/train",
+                val_annotation_path="datasets/pusht_1000_1101/annotation/val",
+                test_annotation_path="datasets/pusht_1000_1101/annotation/val",
+                video_path="datasets/pusht_1000_1101/",
+                fps_downsample_ratio=1,
+                num_action_per_chunk=12,
+                cam_ids=[0],
+                accumulate_action=False,
+                video_size=[128, 128],
+                val_start_frame_interval=1,
+                mode="train",
+            ),
+            sampler=L(get_sampler)(
+                dataset=L(Dataset_3D)(
+                    train_annotation_path="datasets/pusht_1000_1101/annotation/train",
+                    val_annotation_path="datasets/pusht_1000_1101/annotation/val",
+                    test_annotation_path="datasets/pusht_1000_1101/annotation/val",
+                    video_path="datasets/pusht_1000_1101/",
+                    fps_downsample_ratio=1,
+                    num_action_per_chunk=12,
+                    cam_ids=[0],
+                    accumulate_action=False,
+                    video_size=[128, 128],
+                    val_start_frame_interval=1,
+                    mode="train",
+                ),
+            ),
+            batch_size=1,
+            drop_last=True,
+        ),
+    )
+
+    cs.store(
+        group="data_val",
+        package="dataloader_val",
+        name="pusht_val",
+        node=L(DataLoader)(
+            dataset=L(Dataset_3D)(
+                train_annotation_path="datasets/pusht_1000_1101/annotation/train",
+                val_annotation_path="datasets/pusht_1000_1101/annotation/val",
+                test_annotation_path="datasets/pusht_1000_1101/annotation/val",
+                video_path="datasets/pusht_1000_1101/",
+                fps_downsample_ratio=1,
+                num_action_per_chunk=12,
+                cam_ids=[0],
+                accumulate_action=False,
+                video_size=[128, 128],
+                val_start_frame_interval=1,
+                mode="val",
+            ),
+            sampler=L(get_sampler)(
+                dataset=L(Dataset_3D)(
+                    train_annotation_path="datasets/pusht_1000_1101/annotation/train",
+                    val_annotation_path="datasets/pusht_1000_1101/annotation/val",
+                    test_annotation_path="datasets/pusht_1000_1101/annotation/val",
+                    video_path="datasets/pusht_1000_1101/",
+                    fps_downsample_ratio=1,
+                    num_action_per_chunk=12,
+                    cam_ids=[0],
+                    accumulate_action=False,
+                    video_size=[128, 128],
+                    val_start_frame_interval=1,
+                    mode="val",
+                ),
+            ),
+            batch_size=1,
+            drop_last=True,
+        ),
+    )
+
+    # Single Chain in Box (4D actions)
+    cs.store(
+        group="data_train",
+        package="dataloader_train",
+        name="single_chain_in_box_train",
+        node=L(DataLoader)(
+            dataset=L(Dataset_3D)(
+                train_annotation_path="datasets/single_chain_in_box_1224/annotation/train",
+                val_annotation_path="datasets/single_chain_in_box_1224/annotation/val",
+                test_annotation_path="datasets/single_chain_in_box_1224/annotation/val",
+                video_path="datasets/single_chain_in_box_1224/",
+                fps_downsample_ratio=1,
+                num_action_per_chunk=12,
+                cam_ids=[0],
+                accumulate_action=False,
+                video_size=[128, 128],
+                val_start_frame_interval=1,
+                mode="train",
+            ),
+            sampler=L(get_sampler)(
+                dataset=L(Dataset_3D)(
+                    train_annotation_path="datasets/single_chain_in_box_1224/annotation/train",
+                    val_annotation_path="datasets/single_chain_in_box_1224/annotation/val",
+                    test_annotation_path="datasets/single_chain_in_box_1224/annotation/val",
+                    video_path="datasets/single_chain_in_box_1224/",
+                    fps_downsample_ratio=1,
+                    num_action_per_chunk=12,
+                    cam_ids=[0],
+                    accumulate_action=False,
+                    video_size=[128, 128],
+                    val_start_frame_interval=1,
+                    mode="train",
+                ),
+            ),
+            batch_size=1,
+            drop_last=True,
+        ),
+    )
+
+    cs.store(
+        group="data_val",
+        package="dataloader_val",
+        name="single_chain_in_box_val",
+        node=L(DataLoader)(
+            dataset=L(Dataset_3D)(
+                train_annotation_path="datasets/single_chain_in_box_1224/annotation/train",
+                val_annotation_path="datasets/single_chain_in_box_1224/annotation/val",
+                test_annotation_path="datasets/single_chain_in_box_1224/annotation/val",
+                video_path="datasets/single_chain_in_box_1224/",
+                fps_downsample_ratio=1,
+                num_action_per_chunk=12,
+                cam_ids=[0],
+                accumulate_action=False,
+                video_size=[128, 128],
+                val_start_frame_interval=1,
+                mode="val",
+            ),
+            sampler=L(get_sampler)(
+                dataset=L(Dataset_3D)(
+                    train_annotation_path="datasets/single_chain_in_box_1224/annotation/train",
+                    val_annotation_path="datasets/single_chain_in_box_1224/annotation/val",
+                    test_annotation_path="datasets/single_chain_in_box_1224/annotation/val",
+                    video_path="datasets/single_chain_in_box_1224/",
+                    fps_downsample_ratio=1,
+                    num_action_per_chunk=12,
+                    cam_ids=[0],
+                    accumulate_action=False,
+                    video_size=[128, 128],
+                    val_start_frame_interval=1,
+                    mode="val",
+                ),
+            ),
+            batch_size=1,
+            drop_last=True,
+        ),
+    )
+
+    # Single Grasp (4D actions)
+    cs.store(
+        group="data_train",
+        package="dataloader_train",
+        name="single_grasp_train",
+        node=L(DataLoader)(
+            dataset=L(Dataset_3D)(
+                train_annotation_path="datasets/single_grasp_1213/annotation/train",
+                val_annotation_path="datasets/single_grasp_1213/annotation/val",
+                test_annotation_path="datasets/single_grasp_1213/annotation/val",
+                video_path="datasets/single_grasp_1213/",
+                fps_downsample_ratio=1,
+                num_action_per_chunk=12,
+                cam_ids=[0],
+                accumulate_action=False,
+                video_size=[128, 128],
+                val_start_frame_interval=1,
+                mode="train",
+            ),
+            sampler=L(get_sampler)(
+                dataset=L(Dataset_3D)(
+                    train_annotation_path="datasets/single_grasp_1213/annotation/train",
+                    val_annotation_path="datasets/single_grasp_1213/annotation/val",
+                    test_annotation_path="datasets/single_grasp_1213/annotation/val",
+                    video_path="datasets/single_grasp_1213/",
+                    fps_downsample_ratio=1,
+                    num_action_per_chunk=12,
+                    cam_ids=[0],
+                    accumulate_action=False,
+                    video_size=[128, 128],
+                    val_start_frame_interval=1,
+                    mode="train",
+                ),
+            ),
+            batch_size=1,
+            drop_last=True,
+        ),
+    )
+
+    cs.store(
+        group="data_val",
+        package="dataloader_val",
+        name="single_grasp_val",
+        node=L(DataLoader)(
+            dataset=L(Dataset_3D)(
+                train_annotation_path="datasets/single_grasp_1213/annotation/train",
+                val_annotation_path="datasets/single_grasp_1213/annotation/val",
+                test_annotation_path="datasets/single_grasp_1213/annotation/val",
+                video_path="datasets/single_grasp_1213/",
+                fps_downsample_ratio=1,
+                num_action_per_chunk=12,
+                cam_ids=[0],
+                accumulate_action=False,
+                video_size=[128, 128],
+                val_start_frame_interval=1,
+                mode="val",
+            ),
+            sampler=L(get_sampler)(
+                dataset=L(Dataset_3D)(
+                    train_annotation_path="datasets/single_grasp_1213/annotation/train",
+                    val_annotation_path="datasets/single_grasp_1213/annotation/val",
+                    test_annotation_path="datasets/single_grasp_1213/annotation/val",
+                    video_path="datasets/single_grasp_1213/",
+                    fps_downsample_ratio=1,
+                    num_action_per_chunk=12,
+                    cam_ids=[0],
+                    accumulate_action=False,
+                    video_size=[128, 128],
+                    val_start_frame_interval=1,
+                    mode="val",
+                ),
+            ),
+            batch_size=1,
+            drop_last=True,
+        ),
+    )
+
     # Register gr00t_customized_gr1 data
     if register_gr00t_customized_gr1_data is not None:
         register_gr00t_customized_gr1_data()

@@ -22,14 +22,4 @@ export MUJOCO_EGL_DEVICE_ID=0
 cd /projects/bcyd/ywang41/cosmos-predict2.5/
 source .venv/bin/activate
 
-python scripts/convert_hdf5_to_cosmos.py \
-    --input_dir /work/hdd/bcyd/ywang41/diffusion-forcing/data/real_aloha/bimanual_rope_1201 \
-    --output_dir /projects/bcyd/ywang41/cosmos-predict2.5/datasets/real_bimanual_rope \
-    --task_name bimanual_rope \
-    --camera_key obs/images/camera_0_color \
-    --state_key obs/joint_pos \
-    --action_key action \
-    --resize 128 128 \
-    --fps 10
-
 torchrun --nproc_per_node=2 --master_port=12341 -m scripts.train --config=cosmos_predict2/_src/predict2/action/configs/action_conditioned/config.py  -- experiment=bimanual_rope_2b_128_128 ~dataloader_train.dataloaders

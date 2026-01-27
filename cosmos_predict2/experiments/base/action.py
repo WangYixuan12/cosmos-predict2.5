@@ -419,6 +419,250 @@ bimanual_box_2b_128_128 = LazyDict(
     flags={"allow_objects": True},
 )
 
+# Task 4: Bimanual Sweep (4D actions)
+bimanual_sweep_2b_128_128 = LazyDict(
+    dict(
+        defaults=[
+            DEFAULT_CHECKPOINT.experiment,
+            {"override /model": "action_conditioned_video2world_fsdp_rectified_flow"},
+            {"override /net": "cosmos_v1_2B_action_conditioned"},
+            {"override /conditioner": "action_conditioned_video_conditioner"},
+            {"override /data_train": "bimanual_sweep_train"},
+            {"override /data_val": "bimanual_sweep_val"},
+            "_self_",
+        ],
+        job=dict(
+            project="cosmos_predict2_action_conditioned",
+            group="custom_tasks",
+            name="bimanual_sweep",
+        ),
+        optimizer=dict(
+            lr=2 ** (-14.5),
+            weight_decay=0.1,
+        ),
+        checkpoint=dict(
+            save_iter=2_000,
+            load_path=get_checkpoint_path(DEFAULT_CHECKPOINT.s3.uri),
+            load_training_state=False,
+            strict_resume=False,
+            load_from_object_store=dict(enabled=False),
+            save_to_object_store=dict(enabled=False),
+        ),
+        trainer=dict(
+            straggler_detection=dict(enabled=False),
+            callbacks=dict(
+                every_n_sample_reg=dict(every_n=5000, do_x0_prediction=False, guidance=[0, 3, 7], fps=16, save_s3=False),
+                every_n_sample_ema=dict(every_n=5000, do_x0_prediction=False, guidance=[0, 3, 7], fps=16, save_s3=False),
+                heart_beat=dict(save_s3=False),
+                iter_speed=dict(hit_thres=100, save_s3=False),
+                device_monitor=dict(save_s3=False),
+                wandb=dict(save_s3=False),
+                wandb_10x=dict(save_s3=False),
+                dataloader_speed=dict(save_s3=False),
+            ),
+        ),
+        model_parallel=dict(context_parallel_size=1),
+        model=dict(
+            config=dict(
+                min_num_conditional_frames=1,
+                max_num_conditional_frames=1,
+                conditional_frames_probs=None,
+                state_t=1 + 12 // 4,
+                net=dict(action_dim=4, num_action_per_chunk=12),
+            ),
+        ),
+        dataloader_train=dict(
+            batch_size=2,
+            sampler=dict(dataset=dict(fps_downsample_ratio=1, video_size=[128, 128])),
+            dataset=dict(fps_downsample_ratio=1, video_size=[128, 128]),
+        ),
+    ),
+    flags={"allow_objects": True},
+)
+
+# Task 5: PushT (4D actions)
+pusht_2b_128_128 = LazyDict(
+    dict(
+        defaults=[
+            DEFAULT_CHECKPOINT.experiment,
+            {"override /model": "action_conditioned_video2world_fsdp_rectified_flow"},
+            {"override /net": "cosmos_v1_2B_action_conditioned"},
+            {"override /conditioner": "action_conditioned_video_conditioner"},
+            {"override /data_train": "pusht_train"},
+            {"override /data_val": "pusht_val"},
+            "_self_",
+        ],
+        job=dict(
+            project="cosmos_predict2_action_conditioned",
+            group="custom_tasks",
+            name="pusht",
+        ),
+        optimizer=dict(
+            lr=2 ** (-14.5),
+            weight_decay=0.1,
+        ),
+        checkpoint=dict(
+            save_iter=2_000,
+            load_path=get_checkpoint_path(DEFAULT_CHECKPOINT.s3.uri),
+            load_training_state=False,
+            strict_resume=False,
+            load_from_object_store=dict(enabled=False),
+            save_to_object_store=dict(enabled=False),
+        ),
+        trainer=dict(
+            straggler_detection=dict(enabled=False),
+            callbacks=dict(
+                every_n_sample_reg=dict(every_n=5000, do_x0_prediction=False, guidance=[0, 3, 7], fps=16, save_s3=False),
+                every_n_sample_ema=dict(every_n=5000, do_x0_prediction=False, guidance=[0, 3, 7], fps=16, save_s3=False),
+                heart_beat=dict(save_s3=False),
+                iter_speed=dict(hit_thres=100, save_s3=False),
+                device_monitor=dict(save_s3=False),
+                wandb=dict(save_s3=False),
+                wandb_10x=dict(save_s3=False),
+                dataloader_speed=dict(save_s3=False),
+            ),
+        ),
+        model_parallel=dict(context_parallel_size=1),
+        model=dict(
+            config=dict(
+                min_num_conditional_frames=1,
+                max_num_conditional_frames=1,
+                conditional_frames_probs=None,
+                state_t=1 + 12 // 4,
+                net=dict(action_dim=4, num_action_per_chunk=12),
+            ),
+        ),
+        dataloader_train=dict(
+            batch_size=2,
+            sampler=dict(dataset=dict(fps_downsample_ratio=1, video_size=[128, 128])),
+            dataset=dict(fps_downsample_ratio=1, video_size=[128, 128]),
+        ),
+    ),
+    flags={"allow_objects": True},
+)
+
+# Task 6: Single Chain in Box (4D actions)
+single_chain_in_box_2b_128_128 = LazyDict(
+    dict(
+        defaults=[
+            DEFAULT_CHECKPOINT.experiment,
+            {"override /model": "action_conditioned_video2world_fsdp_rectified_flow"},
+            {"override /net": "cosmos_v1_2B_action_conditioned"},
+            {"override /conditioner": "action_conditioned_video_conditioner"},
+            {"override /data_train": "single_chain_in_box_train"},
+            {"override /data_val": "single_chain_in_box_val"},
+            "_self_",
+        ],
+        job=dict(
+            project="cosmos_predict2_action_conditioned",
+            group="custom_tasks",
+            name="single_chain_in_box",
+        ),
+        optimizer=dict(
+            lr=2 ** (-14.5),
+            weight_decay=0.1,
+        ),
+        checkpoint=dict(
+            save_iter=2_000,
+            load_path=get_checkpoint_path(DEFAULT_CHECKPOINT.s3.uri),
+            load_training_state=False,
+            strict_resume=False,
+            load_from_object_store=dict(enabled=False),
+            save_to_object_store=dict(enabled=False),
+        ),
+        trainer=dict(
+            straggler_detection=dict(enabled=False),
+            callbacks=dict(
+                every_n_sample_reg=dict(every_n=5000, do_x0_prediction=False, guidance=[0, 3, 7], fps=16, save_s3=False),
+                every_n_sample_ema=dict(every_n=5000, do_x0_prediction=False, guidance=[0, 3, 7], fps=16, save_s3=False),
+                heart_beat=dict(save_s3=False),
+                iter_speed=dict(hit_thres=100, save_s3=False),
+                device_monitor=dict(save_s3=False),
+                wandb=dict(save_s3=False),
+                wandb_10x=dict(save_s3=False),
+                dataloader_speed=dict(save_s3=False),
+            ),
+        ),
+        model_parallel=dict(context_parallel_size=1),
+        model=dict(
+            config=dict(
+                min_num_conditional_frames=1,
+                max_num_conditional_frames=1,
+                conditional_frames_probs=None,
+                state_t=1 + 12 // 4,
+                net=dict(action_dim=4, num_action_per_chunk=12),
+            ),
+        ),
+        dataloader_train=dict(
+            batch_size=2,
+            sampler=dict(dataset=dict(fps_downsample_ratio=1, video_size=[128, 128])),
+            dataset=dict(fps_downsample_ratio=1, video_size=[128, 128]),
+        ),
+    ),
+    flags={"allow_objects": True},
+)
+
+# Task 7: Single Grasp (4D actions)
+single_grasp_2b_128_128 = LazyDict(
+    dict(
+        defaults=[
+            DEFAULT_CHECKPOINT.experiment,
+            {"override /model": "action_conditioned_video2world_fsdp_rectified_flow"},
+            {"override /net": "cosmos_v1_2B_action_conditioned"},
+            {"override /conditioner": "action_conditioned_video_conditioner"},
+            {"override /data_train": "single_grasp_train"},
+            {"override /data_val": "single_grasp_val"},
+            "_self_",
+        ],
+        job=dict(
+            project="cosmos_predict2_action_conditioned",
+            group="custom_tasks",
+            name="single_grasp",
+        ),
+        optimizer=dict(
+            lr=2 ** (-14.5),
+            weight_decay=0.1,
+        ),
+        checkpoint=dict(
+            save_iter=2_000,
+            load_path=get_checkpoint_path(DEFAULT_CHECKPOINT.s3.uri),
+            load_training_state=False,
+            strict_resume=False,
+            load_from_object_store=dict(enabled=False),
+            save_to_object_store=dict(enabled=False),
+        ),
+        trainer=dict(
+            straggler_detection=dict(enabled=False),
+            callbacks=dict(
+                every_n_sample_reg=dict(every_n=5000, do_x0_prediction=False, guidance=[0, 3, 7], fps=16, save_s3=False),
+                every_n_sample_ema=dict(every_n=5000, do_x0_prediction=False, guidance=[0, 3, 7], fps=16, save_s3=False),
+                heart_beat=dict(save_s3=False),
+                iter_speed=dict(hit_thres=100, save_s3=False),
+                device_monitor=dict(save_s3=False),
+                wandb=dict(save_s3=False),
+                wandb_10x=dict(save_s3=False),
+                dataloader_speed=dict(save_s3=False),
+            ),
+        ),
+        model_parallel=dict(context_parallel_size=1),
+        model=dict(
+            config=dict(
+                min_num_conditional_frames=1,
+                max_num_conditional_frames=1,
+                conditional_frames_probs=None,
+                state_t=1 + 12 // 4,
+                net=dict(action_dim=4, num_action_per_chunk=12),
+            ),
+        ),
+        dataloader_train=dict(
+            batch_size=2,
+            sampler=dict(dataset=dict(fps_downsample_ratio=1, video_size=[128, 128])),
+            dataset=dict(fps_downsample_ratio=1, video_size=[128, 128]),
+        ),
+    ),
+    flags={"allow_objects": True},
+)
+
 cs = ConfigStore.instance()
 
 for _item in [
@@ -426,6 +670,10 @@ for _item in [
     scripted_sim_aloha_2b_128_128,
     bimanual_rope_2b_128_128,
     bimanual_box_2b_128_128,
+    bimanual_sweep_2b_128_128,
+    pusht_2b_128_128,
+    single_chain_in_box_2b_128_128,
+    single_grasp_2b_128_128,
 ]:
     # Get the experiment name from the global variable
     experiment_name = [name.lower() for name, value in globals().items() if value is _item][0]  # noqa: RUF015
