@@ -1,22 +1,13 @@
-import copy
-import pathlib
 import time
 from pathlib import Path
 from typing import Dict, Optional, Callable
 
 import cv2
-import dill
-import hydra
-import hydra.core
-import hydra.core.global_hydra
-import lightning.pytorch as pl
 import numpy as np
 import torch
-import torch.nn.functional as F
 import torch.utils
 from einops import rearrange
-from hydra import compose, initialize
-from omegaconf import DictConfig, OmegaConf, open_dict
+from omegaconf import DictConfig
 from sewar.full_ref import uqi
 from torchmetrics.functional import (
     peak_signal_noise_ratio,
@@ -33,7 +24,8 @@ from torchvision.transforms import (
 from tqdm import tqdm
 
 import sys
-sys.path.append("/home/yixuan/diffusion-forcing")
+curr_file_path = Path(__file__).resolve()
+sys.path.append(f"{curr_file_path}/../../diffusion-forcing")
 
 from datasets.latent_dynamics import (
     RealAlohaDataset,
