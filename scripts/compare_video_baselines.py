@@ -23,6 +23,7 @@ from torchvision.transforms import (
 )
 from omegaconf import OmegaConf
 from tqdm import tqdm
+import argparse
 
 import sys
 curr_file_path = Path(__file__).resolve().parent
@@ -379,27 +380,73 @@ def main() -> None:
     Hold "Space" to pause.
     """
     curr_file_path = Path(__file__).resolve().parent
-    obs_keys = ["camera_0_color"]
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--obs_key", help="Observation keys to use"
+    )
+    parser.add_argument(
+        "--batch_size", type=int, default=2, help="Batch size for evaluation"
+    )
+    parser.add_argument(
+        "--save_dir", type=str, help="Directory to save visualizations"
+    )
+    parser.add_argument(
+        "--cosmos_experiment", type=str, help="Cosmos experiment name"
+    )
+    parser.add_argument(
+        "--cosmos_ckpt", type=str, help="Path to Cosmos checkpoint"
+    )
+    parser.add_argument(
+        "--cosmos_chunk_size", type=int, default=12, help="Cosmos chunk size"
+    )
+    parser.add_argument(
+        "--cosmos_guidance", type=float, default=3.0, help="Cosmos guidance scale"
+    )
+    parser.add_argument(
+        "--dataset_name", type=str, default="real_aloha", help="Dataset name"
+    )
+    parser.add_argument(
+        "--action_dim", type=int, default=4, help="Action dimension"
+    )
+    parser.add_argument(
+        "--dataset_dir", type=str, help="Directory of the dataset"
+    )
+    parser.add_argument(
+        "--horizon", type=int, help="Horizon for evaluation"
+    )
+    parser.add_argument(
+        "--skip_frame", type=int, help="Skip frame for dataset"
+    )
+    parser.add_argument(
+        "--skip_idx", type=int, help="Skip index for dataset"
+    )
+    parser.add_argument(
+        "--resolution", type=int, help="Resolution for dataset"
+    )
+    
+    args = parser.parse_args()
+    
+    obs_keys = [args.obs_key]
     device = "cuda"
     save_vis = True
-    B = 2
-    save_dir = f"{curr_file_path}/compare_video_baselines/cosmos_debug"
+    B = args.batch_size
+    save_dir = args.save_dir
     methods = ["cosmos"]
     names = ["Cosmos"]
 
     # load Cosmos world model
-    cosmos_experiment = "bimanual_sweep_2b_128_128"
-    cosmos_ckpt = "/work/nvme/bcyd/ywang41/cosmos_predict2_action_conditioned/custom_tasks/bimanual_sweep/checkpoints/iter_000012000/model_ema_bf16.pt"
-    cosmos_chunk_size = 12
-    cosmos_guidance = 3.0
-    dataset_name = "real_aloha"
-    action_dim = 4
-    dataset_dir = "/work/hdd/bcyd/ywang41/diffusion-forcing/data/real_aloha/bimanual_sweep_0103"
-    obs_key = "camera_0_color"
-    horizon = 48
-    skip_frame = 1
-    skip_idx = 1
-    resolution = 128
+    cosmos_experiment = args.cosmos_experiment
+    cosmos_ckpt = args.cosmos_ckpt
+    cosmos_chunk_size = args.cosmos_chunk_size
+    cosmos_guidance = args.cosmos_guidance
+    dataset_name = args.dataset_name
+    action_dim = args.action_dim
+    dataset_dir = args.dataset_dir
+    obs_key = args.obs_key
+    horizon = args.horizon
+    skip_frame = args.skip_frame
+    skip_idx = args.skip_idx
+    resolution = args.resolution
     
     print(f"Loading Cosmos model: {cosmos_experiment} from {cosmos_ckpt}")
     cosmos_wm = load_cosmos_wm(cosmos_experiment, cosmos_ckpt)
