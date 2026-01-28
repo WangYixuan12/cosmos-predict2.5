@@ -147,7 +147,7 @@ scripted_sim_aloha_2b_128_128 = LazyDict(
             weight_decay=0.1,
         ),
         checkpoint=dict(
-            save_iter=2_000,
+            save_iter=5_000,
             # pyrefly: ignore  # missing-attribute
             load_path=get_checkpoint_path(DEFAULT_CHECKPOINT.s3.uri),
             load_training_state=False,
@@ -245,7 +245,7 @@ bimanual_rope_2b_128_128 = LazyDict(
             weight_decay=0.1,
         ),
         checkpoint=dict(
-            save_iter=2_000,
+            save_iter=5_000,
             # pyrefly: ignore  # missing-attribute
             load_path=get_checkpoint_path(DEFAULT_CHECKPOINT.s3.uri),
             load_training_state=False,
@@ -343,7 +343,7 @@ bimanual_box_2b_128_128 = LazyDict(
             weight_decay=0.1,
         ),
         checkpoint=dict(
-            save_iter=2_000,
+            save_iter=5_000,
             # pyrefly: ignore  # missing-attribute
             load_path=get_checkpoint_path(DEFAULT_CHECKPOINT.s3.uri),
             load_training_state=False,
@@ -441,7 +441,7 @@ bimanual_sweep_2b_128_128 = LazyDict(
             weight_decay=0.1,
         ),
         checkpoint=dict(
-            save_iter=2_000,
+            save_iter=5_000,
             load_path=get_checkpoint_path(DEFAULT_CHECKPOINT.s3.uri),
             load_training_state=False,
             strict_resume=False,
@@ -502,7 +502,7 @@ pusht_2b_128_128 = LazyDict(
             weight_decay=0.1,
         ),
         checkpoint=dict(
-            save_iter=2_000,
+            save_iter=5_000,
             load_path=get_checkpoint_path(DEFAULT_CHECKPOINT.s3.uri),
             load_training_state=False,
             strict_resume=False,
@@ -563,7 +563,7 @@ single_chain_in_box_2b_128_128 = LazyDict(
             weight_decay=0.1,
         ),
         checkpoint=dict(
-            save_iter=2_000,
+            save_iter=5_000,
             load_path=get_checkpoint_path(DEFAULT_CHECKPOINT.s3.uri),
             load_training_state=False,
             strict_resume=False,
@@ -624,7 +624,7 @@ single_grasp_2b_128_128 = LazyDict(
             weight_decay=0.1,
         ),
         checkpoint=dict(
-            save_iter=2_000,
+            save_iter=5_000,
             load_path=get_checkpoint_path(DEFAULT_CHECKPOINT.s3.uri),
             load_training_state=False,
             strict_resume=False,

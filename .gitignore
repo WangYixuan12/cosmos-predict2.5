@@ -210,4 +210,5 @@ cython_debug/
 *outputs/
 
 cosmos_predict2_action_conditioned/
+scripts/compare_video_baselines/
 

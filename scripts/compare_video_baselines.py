@@ -21,6 +21,7 @@ from torchvision.transforms import (
     Normalize,
     Resize,
 )
+from omegaconf import OmegaConf
 from tqdm import tqdm
 
 import sys
@@ -72,22 +73,6 @@ def torch_pred_to_video(pred: torch.Tensor, dir_name: str) -> None:
         vid_writer.release()
 
 
-def build_dataset(cfg: DictConfig, split: str) -> Optional[torch.utils.data.Dataset]:
-    # build the dataset
-    compatible_datasets = {
-        "sim_aloha_dataset": SimAlohaDataset,
-        "real_aloha_dataset": RealAlohaDataset,
-    }
-    dataset = compatible_datasets[cfg.dataset._name](cfg.dataset)  # noqa
-    if split == "training":
-        return dataset
-    elif split == "validation":
-        return dataset.get_validation_dataset()
-    elif split == "test":
-        return dataset
-    else:
-        raise NotImplementedError(f"split '{split}' is not implemented")
-
 def load_cosmos_wm(experiment_name: str, ckpt_path: str) -> ActionVideo2WorldInference:
     """Load Cosmos action-conditioned world model from checkpoint.
 
@@ -129,7 +114,6 @@ def cosmos_infer(
     Returns:
         pred: Predicted video (B, T, C, H, W) in [0, 1]
     """
-    device = next(iter(cosmos_wm.model.parameters())).device
 
     # Get batch dimensions
     B, T = batch["obs"][obs_key].shape[:2]
@@ -153,8 +137,8 @@ def cosmos_infer(
         current_frame = first_frame
 
         # Autoregressive rollout with chunks
-        for t in range(0, T - 1, chunk_size):
-            end_t = min(t + chunk_size, T - 1)
+        for t in range(0, T, chunk_size):
+            end_t = min(t + chunk_size, T)
             chunk_actions = batch_actions[t:end_t]  # (chunk_size, A)
 
             # Run inference for this chunk
@@ -363,6 +347,7 @@ def eval_one_batch(
     if "cosmos" in methods:
         pred_ls.append(cosmos_pred)
     for i, pred in enumerate(pred_ls):
+        GT = GT.to(pred.device)
         mse = mse_metric(pred, GT)
         psnr = psnr_metric(pred, GT)
         ssim = ssim_metric(pred, GT)
@@ -393,26 +378,57 @@ def main() -> None:
     Press "R" to retry.
     Hold "Space" to pause.
     """
+    curr_file_path = Path(__file__).resolve().parent
     obs_keys = ["camera_0_color"]
     device = "cuda"
     save_vis = True
-    B = 1
-    save_dir = "/home/yixuan/diffusion-forcing/compare_video_baselines/cosmos_debug"
+    B = 2
+    save_dir = f"{curr_file_path}/compare_video_baselines/cosmos_debug"
     methods = ["cosmos"]
     names = ["Cosmos"]
 
     # load Cosmos world model
-    cosmos_experiment = "bimanual_rope_2b_128_128"
-    cosmos_ckpt = "/home/yixuan/cosmos-predict2.5/cosmos_predict2_action_conditioned/custom_tasks/bimanual_rope/checkpoints/iter_000004000"
+    cosmos_experiment = "bimanual_sweep_2b_128_128"
+    cosmos_ckpt = "/work/nvme/bcyd/ywang41/cosmos_predict2_action_conditioned/custom_tasks/bimanual_sweep/checkpoints/iter_000012000/model_ema_bf16.pt"
     cosmos_chunk_size = 12
     cosmos_guidance = 3.0
+    dataset_name = "real_aloha"
+    action_dim = 4
+    dataset_dir = "/work/hdd/bcyd/ywang41/diffusion-forcing/data/real_aloha/bimanual_sweep_0103"
+    obs_key = "camera_0_color"
+    horizon = 48
+    skip_frame = 1
+    skip_idx = 1
+    resolution = 128
+    
     print(f"Loading Cosmos model: {cosmos_experiment} from {cosmos_ckpt}")
     cosmos_wm = load_cosmos_wm(cosmos_experiment, cosmos_ckpt)
     print("Cosmos model loaded successfully")
 
     # build algo and load ckpt
-    import ipdb; ipdb.set_trace()
-    dataset: SimAlohaDataset = build_dataset(cfg, split="validation")
+    if dataset_name == "real_aloha":
+        cfg_path = f"{curr_file_path}/../../diffusion-forcing/configurations/dataset/real_aloha_dataset.yaml"
+        cfg = OmegaConf.load(cfg_path)
+    elif dataset_name == "sim_aloha":
+        cfg_path = f"{curr_file_path}/../../diffusion-forcing/configurations/dataset/sim_aloha_dataset.yaml"
+        cfg = OmegaConf.load(cfg_path)
+    
+        
+    cfg.shape_meta.action.shape=[action_dim]
+    cfg.dataset_dir=dataset_dir
+    cfg.obs_keys=[obs_key]
+    cfg.horizon=horizon
+    cfg.skip_frame=skip_frame
+    cfg.skip_idx=skip_idx
+    cfg.val_horizon=horizon
+    cfg.resolution=resolution
+    if dataset_name == "sim_aloha":
+        train_dataset = SimAlohaDataset(cfg)
+    elif dataset_name == "real_aloha":
+        train_dataset = RealAlohaDataset(cfg)
+    else:
+        raise ValueError("Unknown dataset")
+    dataset = train_dataset.get_validation_dataset()
     dataloader = torch.utils.data.DataLoader(dataset, batch_size=B, shuffle=False)
 
     all_res = []
@@ -427,7 +443,6 @@ def main() -> None:
             cosmos_wm,
             cosmos_chunk_size,
             cosmos_guidance,
-            device,
             obs_keys,
             save_vis=save_vis,
             save_dir=save_dir,

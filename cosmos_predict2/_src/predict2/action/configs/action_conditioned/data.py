@@ -20,7 +20,7 @@ from megatron.core import parallel_state
 from torch.utils.data import DataLoader, DistributedSampler
 
 from cosmos_predict2._src.imaginaire.lazy_config import LazyCall as L
-from cosmos_predict2._src.predict2.action.datasets.dataset_local import Dataset_3D
+from cosmos_predict2._src.predict2.action.datasets.dataset_local import Dataset_3D, CustomDataset
 
 try:
     from cosmos_predict2._src.predict2.action.configs.action_conditioned.experiment.gr00t_customized_gr1 import (
@@ -206,11 +206,11 @@ def register_training_and_val_data():
         package="dataloader_train",
         name="scripted_sim_aloha_train",
         node=L(DataLoader)(
-            dataset=L(Dataset_3D)(
-                train_annotation_path="datasets/scripted_sim_aloha_100/annotation/train",
-                val_annotation_path="datasets/scripted_sim_aloha_100/annotation/val",
-                test_annotation_path="datasets/scripted_sim_aloha_100/annotation/val",
-                video_path="datasets/scripted_sim_aloha_100/",
+            dataset=L(CustomDataset)(
+                train_annotation_path="datasets/scripted_sim_aloha_10000/annotation/train",
+                val_annotation_path="datasets/scripted_sim_aloha_10000/annotation/val",
+                test_annotation_path="datasets/scripted_sim_aloha_10000/annotation/val",
+                video_path="datasets/scripted_sim_aloha_10000/",
                 fps_downsample_ratio=1,
                 num_action_per_chunk=12,
                 cam_ids=[0],
@@ -220,11 +220,11 @@ def register_training_and_val_data():
                 mode="train",
             ),
             sampler=L(get_sampler)(
-                dataset=L(Dataset_3D)(
-                    train_annotation_path="datasets/scripted_sim_aloha_100/annotation/train",
-                    val_annotation_path="datasets/scripted_sim_aloha_100/annotation/val",
-                    test_annotation_path="datasets/scripted_sim_aloha_100/annotation/val",
-                    video_path="datasets/scripted_sim_aloha_100/",
+                dataset=L(CustomDataset)(
+                    train_annotation_path="datasets/scripted_sim_aloha_10000/annotation/train",
+                    val_annotation_path="datasets/scripted_sim_aloha_10000/annotation/val",
+                    test_annotation_path="datasets/scripted_sim_aloha_10000/annotation/val",
+                    video_path="datasets/scripted_sim_aloha_10000/",
                     fps_downsample_ratio=1,
                     num_action_per_chunk=12,
                     cam_ids=[0],
@@ -244,11 +244,11 @@ def register_training_and_val_data():
         package="dataloader_val",
         name="scripted_sim_aloha_val",
         node=L(DataLoader)(
-            dataset=L(Dataset_3D)(
-                train_annotation_path="datasets/scripted_sim_aloha_100/annotation/train",
-                val_annotation_path="datasets/scripted_sim_aloha_100/annotation/val",
-                test_annotation_path="datasets/scripted_sim_aloha_100/annotation/val",
-                video_path="datasets/scripted_sim_aloha_100/",
+            dataset=L(CustomDataset)(
+                train_annotation_path="datasets/scripted_sim_aloha_10000/annotation/train",
+                val_annotation_path="datasets/scripted_sim_aloha_10000/annotation/val",
+                test_annotation_path="datasets/scripted_sim_aloha_10000/annotation/val",
+                video_path="datasets/scripted_sim_aloha_10000/",
                 fps_downsample_ratio=1,
                 num_action_per_chunk=12,
                 cam_ids=[0],
@@ -258,11 +258,11 @@ def register_training_and_val_data():
                 mode="val",
             ),
             sampler=L(get_sampler)(
-                dataset=L(Dataset_3D)(
-                    train_annotation_path="datasets/scripted_sim_aloha_100/annotation/train",
-                    val_annotation_path="datasets/scripted_sim_aloha_100/annotation/val",
-                    test_annotation_path="datasets/scripted_sim_aloha_100/annotation/val",
-                    video_path="datasets/scripted_sim_aloha_100/",
+                dataset=L(CustomDataset)(
+                    train_annotation_path="datasets/scripted_sim_aloha_10000/annotation/train",
+                    val_annotation_path="datasets/scripted_sim_aloha_10000/annotation/val",
+                    test_annotation_path="datasets/scripted_sim_aloha_10000/annotation/val",
+                    video_path="datasets/scripted_sim_aloha_10000/",
                     fps_downsample_ratio=1,
                     num_action_per_chunk=12,
                     cam_ids=[0],
@@ -283,7 +283,7 @@ def register_training_and_val_data():
         package="dataloader_train",
         name="bimanual_rope_train",
         node=L(DataLoader)(
-            dataset=L(Dataset_3D)(
+            dataset=L(CustomDataset)(
                 train_annotation_path="datasets/bimanual_rope_1201/annotation/train",
                 val_annotation_path="datasets/bimanual_rope_1201/annotation/val",
                 test_annotation_path="datasets/bimanual_rope_1201/annotation/val",
@@ -297,7 +297,7 @@ def register_training_and_val_data():
                 mode="train",
             ),
             sampler=L(get_sampler)(
-                dataset=L(Dataset_3D)(
+                dataset=L(CustomDataset)(
                     train_annotation_path="datasets/bimanual_rope_1201/annotation/train",
                     val_annotation_path="datasets/bimanual_rope_1201/annotation/val",
                     test_annotation_path="datasets/bimanual_rope_1201/annotation/val",
@@ -321,7 +321,7 @@ def register_training_and_val_data():
         package="dataloader_val",
         name="bimanual_rope_val",
         node=L(DataLoader)(
-            dataset=L(Dataset_3D)(
+            dataset=L(CustomDataset)(
                 train_annotation_path="datasets/bimanual_rope_1201/annotation/train",
                 val_annotation_path="datasets/bimanual_rope_1201/annotation/val",
                 test_annotation_path="datasets/bimanual_rope_1201/annotation/val",
@@ -335,7 +335,7 @@ def register_training_and_val_data():
                 mode="val",
             ),
             sampler=L(get_sampler)(
-                dataset=L(Dataset_3D)(
+                dataset=L(CustomDataset)(
                     train_annotation_path="datasets/bimanual_rope_1201/annotation/train",
                     val_annotation_path="datasets/bimanual_rope_1201/annotation/val",
                     test_annotation_path="datasets/bimanual_rope_1201/annotation/val",
@@ -360,7 +360,7 @@ def register_training_and_val_data():
         package="dataloader_train",
         name="bimanual_box_train",
         node=L(DataLoader)(
-            dataset=L(Dataset_3D)(
+            dataset=L(CustomDataset)(
                 train_annotation_path="datasets/bimanual_box_1221/annotation/train",
                 val_annotation_path="datasets/bimanual_box_1221/annotation/val",
                 test_annotation_path="datasets/bimanual_box_1221/annotation/val",
@@ -374,7 +374,7 @@ def register_training_and_val_data():
                 mode="train",
             ),
             sampler=L(get_sampler)(
-                dataset=L(Dataset_3D)(
+                dataset=L(CustomDataset)(
                     train_annotation_path="datasets/bimanual_box_1221/annotation/train",
                     val_annotation_path="datasets/bimanual_box_1221/annotation/val",
                     test_annotation_path="datasets/bimanual_box_1221/annotation/val",
@@ -398,7 +398,7 @@ def register_training_and_val_data():
         package="dataloader_val",
         name="bimanual_box_val",
         node=L(DataLoader)(
-            dataset=L(Dataset_3D)(
+            dataset=L(CustomDataset)(
                 train_annotation_path="datasets/bimanual_box_1221/annotation/train",
                 val_annotation_path="datasets/bimanual_box_1221/annotation/val",
                 test_annotation_path="datasets/bimanual_box_1221/annotation/val",
@@ -412,7 +412,7 @@ def register_training_and_val_data():
                 mode="val",
             ),
             sampler=L(get_sampler)(
-                dataset=L(Dataset_3D)(
+                dataset=L(CustomDataset)(
                     train_annotation_path="datasets/bimanual_box_1221/annotation/train",
                     val_annotation_path="datasets/bimanual_box_1221/annotation/val",
                     test_annotation_path="datasets/bimanual_box_1221/annotation/val",
@@ -437,7 +437,7 @@ def register_training_and_val_data():
         package="dataloader_train",
         name="bimanual_sweep_train",
         node=L(DataLoader)(
-            dataset=L(Dataset_3D)(
+            dataset=L(CustomDataset)(
                 train_annotation_path="datasets/bimanual_sweep_0103/annotation/train",
                 val_annotation_path="datasets/bimanual_sweep_0103/annotation/val",
                 test_annotation_path="datasets/bimanual_sweep_0103/annotation/val",
@@ -451,7 +451,7 @@ def register_training_and_val_data():
                 mode="train",
             ),
             sampler=L(get_sampler)(
-                dataset=L(Dataset_3D)(
+                dataset=L(CustomDataset)(
                     train_annotation_path="datasets/bimanual_sweep_0103/annotation/train",
                     val_annotation_path="datasets/bimanual_sweep_0103/annotation/val",
                     test_annotation_path="datasets/bimanual_sweep_0103/annotation/val",
@@ -475,7 +475,7 @@ def register_training_and_val_data():
         package="dataloader_val",
         name="bimanual_sweep_val",
         node=L(DataLoader)(
-            dataset=L(Dataset_3D)(
+            dataset=L(CustomDataset)(
                 train_annotation_path="datasets/bimanual_sweep_0103/annotation/train",
                 val_annotation_path="datasets/bimanual_sweep_0103/annotation/val",
                 test_annotation_path="datasets/bimanual_sweep_0103/annotation/val",
@@ -489,7 +489,7 @@ def register_training_and_val_data():
                 mode="val",
             ),
             sampler=L(get_sampler)(
-                dataset=L(Dataset_3D)(
+                dataset=L(CustomDataset)(
                     train_annotation_path="datasets/bimanual_sweep_0103/annotation/train",
                     val_annotation_path="datasets/bimanual_sweep_0103/annotation/val",
                     test_annotation_path="datasets/bimanual_sweep_0103/annotation/val",
@@ -514,7 +514,7 @@ def register_training_and_val_data():
         package="dataloader_train",
         name="pusht_train",
         node=L(DataLoader)(
-            dataset=L(Dataset_3D)(
+            dataset=L(CustomDataset)(
                 train_annotation_path="datasets/pusht_1000_1101/annotation/train",
                 val_annotation_path="datasets/pusht_1000_1101/annotation/val",
                 test_annotation_path="datasets/pusht_1000_1101/annotation/val",
@@ -528,7 +528,7 @@ def register_training_and_val_data():
                 mode="train",
             ),
             sampler=L(get_sampler)(
-                dataset=L(Dataset_3D)(
+                dataset=L(CustomDataset)(
                     train_annotation_path="datasets/pusht_1000_1101/annotation/train",
                     val_annotation_path="datasets/pusht_1000_1101/annotation/val",
                     test_annotation_path="datasets/pusht_1000_1101/annotation/val",
@@ -552,7 +552,7 @@ def register_training_and_val_data():
         package="dataloader_val",
         name="pusht_val",
         node=L(DataLoader)(
-            dataset=L(Dataset_3D)(
+            dataset=L(CustomDataset)(
                 train_annotation_path="datasets/pusht_1000_1101/annotation/train",
                 val_annotation_path="datasets/pusht_1000_1101/annotation/val",
                 test_annotation_path="datasets/pusht_1000_1101/annotation/val",
@@ -566,7 +566,7 @@ def register_training_and_val_data():
                 mode="val",
             ),
             sampler=L(get_sampler)(
-                dataset=L(Dataset_3D)(
+                dataset=L(CustomDataset)(
                     train_annotation_path="datasets/pusht_1000_1101/annotation/train",
                     val_annotation_path="datasets/pusht_1000_1101/annotation/val",
                     test_annotation_path="datasets/pusht_1000_1101/annotation/val",
@@ -591,7 +591,7 @@ def register_training_and_val_data():
         package="dataloader_train",
         name="single_chain_in_box_train",
         node=L(DataLoader)(
-            dataset=L(Dataset_3D)(
+            dataset=L(CustomDataset)(
                 train_annotation_path="datasets/single_chain_in_box_1224/annotation/train",
                 val_annotation_path="datasets/single_chain_in_box_1224/annotation/val",
                 test_annotation_path="datasets/single_chain_in_box_1224/annotation/val",
@@ -605,7 +605,7 @@ def register_training_and_val_data():
                 mode="train",
             ),
             sampler=L(get_sampler)(
-                dataset=L(Dataset_3D)(
+                dataset=L(CustomDataset)(
                     train_annotation_path="datasets/single_chain_in_box_1224/annotation/train",
                     val_annotation_path="datasets/single_chain_in_box_1224/annotation/val",
                     test_annotation_path="datasets/single_chain_in_box_1224/annotation/val",
@@ -629,7 +629,7 @@ def register_training_and_val_data():
         package="dataloader_val",
         name="single_chain_in_box_val",
         node=L(DataLoader)(
-            dataset=L(Dataset_3D)(
+            dataset=L(CustomDataset)(
                 train_annotation_path="datasets/single_chain_in_box_1224/annotation/train",
                 val_annotation_path="datasets/single_chain_in_box_1224/annotation/val",
                 test_annotation_path="datasets/single_chain_in_box_1224/annotation/val",
@@ -643,7 +643,7 @@ def register_training_and_val_data():
                 mode="val",
             ),
             sampler=L(get_sampler)(
-                dataset=L(Dataset_3D)(
+                dataset=L(CustomDataset)(
                     train_annotation_path="datasets/single_chain_in_box_1224/annotation/train",
                     val_annotation_path="datasets/single_chain_in_box_1224/annotation/val",
                     test_annotation_path="datasets/single_chain_in_box_1224/annotation/val",
@@ -668,7 +668,7 @@ def register_training_and_val_data():
         package="dataloader_train",
         name="single_grasp_train",
         node=L(DataLoader)(
-            dataset=L(Dataset_3D)(
+            dataset=L(CustomDataset)(
                 train_annotation_path="datasets/single_grasp_1213/annotation/train",
                 val_annotation_path="datasets/single_grasp_1213/annotation/val",
                 test_annotation_path="datasets/single_grasp_1213/annotation/val",
@@ -682,7 +682,7 @@ def register_training_and_val_data():
                 mode="train",
             ),
             sampler=L(get_sampler)(
-                dataset=L(Dataset_3D)(
+                dataset=L(CustomDataset)(
                     train_annotation_path="datasets/single_grasp_1213/annotation/train",
                     val_annotation_path="datasets/single_grasp_1213/annotation/val",
                     test_annotation_path="datasets/single_grasp_1213/annotation/val",
@@ -706,7 +706,7 @@ def register_training_and_val_data():
         package="dataloader_val",
         name="single_grasp_val",
         node=L(DataLoader)(
-            dataset=L(Dataset_3D)(
+            dataset=L(CustomDataset)(
                 train_annotation_path="datasets/single_grasp_1213/annotation/train",
                 val_annotation_path="datasets/single_grasp_1213/annotation/val",
                 test_annotation_path="datasets/single_grasp_1213/annotation/val",
@@ -720,7 +720,7 @@ def register_training_and_val_data():
                 mode="val",
             ),
             sampler=L(get_sampler)(
-                dataset=L(Dataset_3D)(
+                dataset=L(CustomDataset)(
                     train_annotation_path="datasets/single_grasp_1213/annotation/train",
                     val_annotation_path="datasets/single_grasp_1213/annotation/val",
                     test_annotation_path="datasets/single_grasp_1213/annotation/val",
