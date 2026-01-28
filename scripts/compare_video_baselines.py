@@ -24,7 +24,7 @@ from torchvision.transforms import (
 from tqdm import tqdm
 
 import sys
-curr_file_path = Path(__file__).resolve()
+curr_file_path = Path(__file__).resolve().parent
 sys.path.append(f"{curr_file_path}/../../diffusion-forcing")
 
 from datasets.latent_dynamics import (
