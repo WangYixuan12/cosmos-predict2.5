@@ -209,3 +209,5 @@ cython_debug/
 .vscode/
 *outputs/
 
+cosmos_predict2_action_conditioned/
+
